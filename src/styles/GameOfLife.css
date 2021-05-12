@@ -1,0 +1,59 @@
+:root {
+  --cell-color: gray;
+  --cell-size: 20px;
+  --button-color: coral;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.gameOfLife {
+  display:flex;
+  justify-content: center; 
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border-radius: 50%;
+  border-color: var(--cell-color);
+  border-width: 1px;
+  border-style: solid;
+  display: inline-block;
+}
+
+.live {
+  background-color: var(--cell-color);
+}
+
+.dead {
+  background-color: none;
+}
+
+.menuBar {
+  display:flex;
+  justify-content: space-between;
+}
+.buttons {
+  display:flex;
+  min-width: 100px;
+}
+.menuButton {
+  min-width: 100px;
+  padding: 10px;
+  background-color: var(--button-color);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-right:5px;
+}
+.generation {
+  padding: 10px;
+}
