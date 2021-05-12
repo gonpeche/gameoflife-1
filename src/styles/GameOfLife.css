@@ -1,8 +1,27 @@
 :root {
-  --cell-color: gray;
+  --cell-color: #a0afa7;
   --cell-size: 20px;
-  --button-color: coral;
+  --bg-main: #3d405b;
+  --bg-secondary: #9cc0ad;
+  --bg: #81b29a;
+  --bg-hover: #dda15e;
+  --text-color: #fff;
+  --border: 1px solid #474a4d;
+  --border-radius: 8px;
+  --speed: 500ms;  
 }
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a { 
+  color: var(--text-color);
+  text-decoration: none;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,13 +29,18 @@
 }
 
 .gameOfLife {
+  background-color: var(--bg-main);
   display:flex;
   justify-content: center; 
+  min-height:100vh;
+  align-items: center;
 }
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-width: 0;
+  align-content: center;
+  min-width: 300px;
+  /* min-width: 0; */
 }
 
 .cell {
@@ -36,24 +60,70 @@
 .dead {
   background-color: none;
 }
-
-.menuBar {
+.navbar {
   display:flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
-.buttons {
+.navbar-nav {
   display:flex;
-  min-width: 100px;
+  align-items: center;
 }
-.menuButton {
+.menu-item {
+  position:relative;
+  
+}
+.menu-button {
   min-width: 100px;
   padding: 10px;
-  background-color: var(--button-color);
-  color: white;
+  background-color: var(--bg);
+  color: var(--text-color);
   font-weight: bold;
   text-align: center;
+  border-radius: var(--border-radius);
   margin-right:5px;
 }
+.menu-button:hover {
+  transition: background var(--speed);
+  background-color: var(--bg-hover);
+}
+
 .generation {
-  padding: 10px;
+  flex-direction: column;
+  color: var(--text-color);
+  justify-content: flex-end;
+}
+
+.menu-options {
+  background-color: var(--bg);
+  min-width:50px;
+  
+}
+.menu-options-nav {
+  max-width: 100%;
+  height: 100%;
+  
+  display: flex;
+  justify-content: flex-end;
+}
+.dropdown-menu {
+  position:absolute;
+  overflow:hidden;
+  background-color: var(--bg-secondary);
+  transform: translateX(-45%);
+  top: 40px;
+  right: -62px;
+  color: var(--text-color);
+  border-radius: var(--border-radius);
+  min-width:150px;
+}
+.dropdown-item {
+  position:relative;
+  padding: 8px;
+  transition: background var(--speed);
+}
+.dropdown-item:hover {
+  background-color: var(--bg-hover);
+  cursor: pointer;
+  
 }
