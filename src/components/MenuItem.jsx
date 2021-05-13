@@ -9,14 +9,15 @@ const MenuItem = ({ children, icon, name, callback }) => {
                className="menu-button" 
                onClick={() => {
                 setIsOpen(!isOpen); 
-                console.log(123)
+                //
+                console.log(312312312)
                 callback && callback()}
             }>
                 {icon || name}
 
             </a>
 
-            {open && children}
+            {isOpen && children}
 
         </li>
     )

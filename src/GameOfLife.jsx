@@ -8,7 +8,7 @@ import './styles/GameOfLife.css'
 
 import { createGrid } from './utils/grid.helpers'
 
-import { Grid, MenuBar, MenuItem, DropdownMenu, DropdownItem } from './components'
+import { Grid, MenuBar, MenuItem, DropdownMenu, DropdownItem, RangeSlider } from './components'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars as barsIcon } from '@fortawesome/free-solid-svg-icons'
@@ -16,7 +16,14 @@ import { faBars as barsIcon } from '@fortawesome/free-solid-svg-icons'
 import produce from 'immer'
 
 import { useInterval } from './hooks/useInterval'
+import { ChakraProvider } from "@chakra-ui/react";
 
+import {
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+} from "@chakra-ui/react"
 
 function GameOfLife() {
 
@@ -37,7 +44,7 @@ function GameOfLife() {
 
   const [generation, setGeneration] = useState(1)
 
-  const speed = useRef()
+  const speedRef = useRef()
 
   // FUNCTIONS
 
@@ -119,7 +126,7 @@ function GameOfLife() {
       
     })
     if (stop) {
-      speed.current = 0
+      speedRef.current = 0
     }
     else {
       setGeneration(gen => gen + 1)
@@ -129,17 +136,18 @@ function GameOfLife() {
 
   const handleStartButton = () => {
     if (stepmode) handleStep()
-    else speed.current = 300
+    else speedRef.current = 300
   }  
   
   useInterval(()=> {
-    if (!speed.current) return
+    if (!speedRef.current) return
 		handleStep()
     
-	}, speed.current)
+	}, speedRef.current)
 
 
   return (
+    <ChakraProvider>
     <div className='gameOfLife'>
       <div className='wrapper'>
 
@@ -148,12 +156,12 @@ function GameOfLife() {
           <MenuItem callback={handleStartButton} name={stepmode ? 'Step' : 'Iniciar' }/>
             
           {/* Solo muestra el boton Detener en caso de que no estemos en step mode           */}
-          { !stepmode && <MenuItem callback={()=> speed.current = 0} name={'Detener'} /> }
+          { !stepmode && <MenuItem callback={()=> speedRef.current = 0} name={'Detener'} /> }
 
           <MenuItem callback={()=> restart()} name={'Reiniciar'} />
           <MenuItem callback={()=> setGrid(()=> createGrid(numRows, numCols, 'RANDOM'))} name={'Random'} />
 
-          <MenuItem icon={<FontAwesomeIcon icon={barsIcon} />}>
+          <MenuItem onClick={()=>console.log(123123)} icon={<FontAwesomeIcon icon={barsIcon} />}>
             
             <DropdownMenu>
         
@@ -167,6 +175,25 @@ function GameOfLife() {
 
               <DropdownItem callback={()=> {}}>
                 Draw Pattern
+              </DropdownItem>
+
+              <DropdownItem>
+                Speed
+
+                <Slider aria-label="slider-ex-1" 
+                        value={speedRef.current}
+                        onChange={(v)=>speedRef.current = v } 
+                        defaultValue={1000} 
+                        min={10} 
+                        max={800} 
+                        colorScheme='pink' 
+                        defaultValue={100}>
+                  <SliderTrack>
+                    <SliderFilledTrack isReversed={true} />
+                  </SliderTrack>
+                  <SliderThumb />
+                </Slider>
+
               </DropdownItem>  
 
 
@@ -181,6 +208,7 @@ function GameOfLife() {
 
       </div>
     </div>
+    </ChakraProvider>
   )
 }
 
