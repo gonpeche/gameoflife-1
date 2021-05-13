@@ -15,7 +15,6 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "framer-motion": "^4",
-    "global": "^4.4.0",
     "immer": "^9.0.2",
     "localtunnel": "^2.0.1",
     "react": "^17.0.0",

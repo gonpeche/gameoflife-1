@@ -40,6 +40,8 @@ function GameOfLife() {
     createGrid(numRows, numCols, pattern)
   )
   
+  const [drawPattern, setDrawPattern] = useState('DEFAULT')
+
   const [stepmode, setStepmode] = useState(false)
 
   const [generation, setGeneration] = useState(1)
@@ -48,10 +50,21 @@ function GameOfLife() {
 
   // FUNCTIONS
 
-  const setCellStatus = (row, col) => {
+  const setCellStatus = (row, col, pattern) => {
     const updatedGrid = produce(grid, draftGrid => {
-      draftGrid[row][col] = grid[row][col] ? 0 : 1
-      
+      if(!pattern) {
+        draftGrid[row][col] = grid[row][col] ? 0 : 1
+      } else {
+        
+        if(pattern === 'GLIDER') {
+          draftGrid[row][col] = 1
+          draftGrid[row][col+1] = 1
+          draftGrid[row][col+2] = 1
+          draftGrid[row+1][col] = 1
+          draftGrid[row+2][col+1] = 1
+        }
+      }
+
     })
     setGrid(()=>updatedGrid)
 
@@ -125,13 +138,10 @@ function GameOfLife() {
       }
       
     })
-    if (stop) {
-      speedRef.current = 0
-    }
-    else {
+  
       setGeneration(gen => gen + 1)
       setGrid(updatedGrid)
-    }
+
   }
 
   const handleStartButton = () => {
@@ -159,9 +169,9 @@ function GameOfLife() {
           { !stepmode && <MenuItem callback={()=> speedRef.current = 0} name={'Detener'} /> }
 
           <MenuItem callback={()=> restart()} name={'Reiniciar'} />
-          <MenuItem callback={()=> setGrid(()=> createGrid(numRows, numCols, 'RANDOM'))} name={'Random'} />
+          <MenuItem callback={()=> setGrid(createGrid(numRows, numCols, 'RANDOM'))} name={'Random'} />
 
-          <MenuItem onClick={()=>console.log(123123)} icon={<FontAwesomeIcon icon={barsIcon} />}>
+          <MenuItem  icon={<FontAwesomeIcon icon={barsIcon} />}>
             
             <DropdownMenu>
         
@@ -205,7 +215,7 @@ function GameOfLife() {
         </MenuBar>
 
         <Grid setCellStatus={setCellStatus} grid={grid} numCols={numCols} />
-
+        
       </div>
     </div>
     </ChakraProvider>
