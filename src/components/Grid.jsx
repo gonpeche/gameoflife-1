@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Grid = ({grid, numCols, setCellStatus}) => {
+const Grid = ({grid, numCols, setCellStatus, figure}) => {
 
     return (
         <div style={{
@@ -16,7 +16,7 @@ const Grid = ({grid, numCols, setCellStatus}) => {
 
                 return <div key={`${i}-${j}`} 
                             className={`cell ${cellStatus ? 'live' : 'dead'}`}
-                            onClick={()=>setCellStatus(i, j)}/>
+                            onClick={()=>setCellStatus(i, j, figure)}/>
                 }
             ))}
         </div>

@@ -16,6 +16,7 @@ import { faBars as barsIcon } from '@fortawesome/free-solid-svg-icons'
 import produce from 'immer'
 
 import { useInterval } from './hooks/useInterval'
+
 import { ChakraProvider } from "@chakra-ui/react";
 
 import {
@@ -40,7 +41,7 @@ function GameOfLife() {
     createGrid(numRows, numCols, pattern)
   )
   
-  const [drawPattern, setDrawPattern] = useState('DEFAULT')
+  const [figure, setFigure] = useState('GLIDER')
 
   const [stepmode, setStepmode] = useState(false)
 
@@ -50,23 +51,31 @@ function GameOfLife() {
 
   // FUNCTIONS
 
-  const setCellStatus = (row, col, pattern) => {
+  const setCellStatus = (row, col, figure) => {
     const updatedGrid = produce(grid, draftGrid => {
-      if(!pattern) {
-        draftGrid[row][col] = grid[row][col] ? 0 : 1
-      } else {
+    
+        switch(figure) {
+          case 'DEFAULT':
+            draftGrid[row][col] = grid[row][col] ? 0 : 1
+            break
+       
+          case 'GLIDER': { 
+            draftGrid[row][col] = 1
+            draftGrid[row][col+1] = 1
+            draftGrid[row][col+2] = 1
+            draftGrid[row+1][col] = 1
+            draftGrid[row+2][col+1] = 1
+            break
+          }
+          default: 
+            draftGrid[row][col] = grid[row][col] ? 0 : 1
+            break
         
-        if(pattern === 'GLIDER') {
-          draftGrid[row][col] = 1
-          draftGrid[row][col+1] = 1
-          draftGrid[row][col+2] = 1
-          draftGrid[row+1][col] = 1
-          draftGrid[row+2][col+1] = 1
-        }
       }
 
     })
-    setGrid(()=>updatedGrid)
+
+    setGrid(updatedGrid)
 
   }
 
@@ -91,8 +100,8 @@ function GameOfLife() {
   }
   
   const restart = () => {
-    setGrid(()=> createGrid(numRows, numCols, 'DEFAULT'))
-    setGeneration(()=> 1)
+    setGrid(createGrid(numRows, numCols, 'DEFAULT'))
+    setGeneration(1)
   }
 
   const handleStep = () => {
@@ -184,7 +193,7 @@ function GameOfLife() {
               </DropdownItem>  
 
               <DropdownItem callback={()=> {}}>
-                Draw Pattern
+                Figure: <b>{ figure }</b>
               </DropdownItem>
 
               <DropdownItem>
@@ -214,7 +223,10 @@ function GameOfLife() {
 
         </MenuBar>
 
-        <Grid setCellStatus={setCellStatus} grid={grid} numCols={numCols} />
+        <Grid setCellStatus={setCellStatus} 
+              figure={figure} 
+              grid={grid} 
+              numCols={numCols} />
         
       </div>
     </div>

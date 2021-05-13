@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 const DropdownMenu = ({children}) => {
-    const [visible, setVisible] = useState(false)
-    const [activeMenu, setActiveMenu] = useState('main') //grid size, draw pattern
+    const [activeMenu, setActiveMenu] = useState('main')
 
     return (
         <div className='dropdown-menu'>
+            
             {children}
         </div>
     )
